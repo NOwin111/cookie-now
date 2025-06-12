@@ -1,5 +1,1 @@
-[img]https://i.postimg.cc/QBbCNjf1/00.png[/img]
-
-[img]https://i.postimg.cc/cgLHrPzj/01.png[/img]
-
-[img]https://i.postimg.cc/94VzjDYc/02.png[/img]
+![image]([https://i.postimg.cc/cHqnmHY9/00.png])
