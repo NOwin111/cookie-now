@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cookie Viewer</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      padding: 0;
+      margin: 0;
+      min-width: 320px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 400px;
+      font-size: 12px;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    
+    @keyframes shimmer {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(45deg); }
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      background: linear-gradient(45deg, #ffffff, #f0f8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    #copy-all {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #copy-all::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    #copy-all:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    #copy-all:hover::before {
+      left: 100%;
+    }
+    
+    #copy-all:active {
+      transform: translateY(0);
+    }
+    
+    .content {
+      padding: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .content::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .content::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.1);
+      border-radius: 3px;
+    }
+    
+    .content::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 3px;
+    }
+    
+    .cookie-item {
+      margin: 10px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      word-break: break-all;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cookie-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+    
+    .cookie-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .cookie-name {
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 13px;
+    }
+    
+    .cookie-value {
+      color: #7f8c8d;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+    
+    .cookie-domain {
+      color: #95a5a6;
+      font-size: 11px;
+      font-style: italic;
+    }
+    
+    .notice {
+      background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+      color: #2d3436;
+      padding: 15px;
+      border-radius: 12px;
+      margin: 10px 0;
+      font-size: 14px;
+      text-align: center;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .stats {
+      background: linear-gradient(135deg, #a8e6cf, #81c784);
+      color: #2e7d32;
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .empty-state {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 16px;
+      padding: 40px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <h2>🍪 网站 Cookies</h2>
+      <button id="copy-all">📋 复制全部</button>
+    </div>
+  </div>
+  
+  <div class="content">
+    <div id="cookies-container"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
