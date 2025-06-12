@@ -1,1 +1,1 @@
-![image]([https://i.postimg.cc/cHqnmHY9/00.png])
+![image](https://github.com/NOwin111/cookie-now/blob/main/readme/00.png)
