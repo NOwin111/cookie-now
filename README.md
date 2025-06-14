@@ -4,4 +4,4 @@
 
 ![image](https://github.com/NOwin111/cookie-now/blob/main/readme/02.png)
 
-一个导出cookie的chrome扩展，格式和F12网络显示的格式一样，并且支持cf_clearance。
+一个导出cookie的chrome扩展，和F12-网络提取出来的格式一样，并且包含cf_clearance。
